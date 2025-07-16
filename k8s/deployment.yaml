@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: packet-inspector
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: packet-inspector
+  template:
+    metadata:
+      labels:
+        app: packet-inspector
+    spec:
+      containers:
+      - name: packet-inspector
+        image: packet-inspector:v1.1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+        env:
+        - name: HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
