@@ -21,7 +21,6 @@ def packet():
 def stats():
     return jsonify(request_counts)
 
-# New route to serve the dashboard page
 @app.route('/')
 def dashboard():
     html = '''
@@ -30,18 +29,54 @@ def dashboard():
     <head>
       <title>Packet Inspector Dashboard</title>
       <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        table { border-collapse: collapse; width: 300px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        th { background-color: #f2f2f2; }
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0; 
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+        header {
+          padding: 10px 20px;
+          display: flex;
+          align-items: center;
+        }
+        header img {
+          height: 100px;
+        }
+        main {
+          flex-grow: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        table {
+          border-collapse: collapse;
+          width: 300px;
+        }
+        th, td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: center;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
       </style>
     </head>
     <body>
-      <h2>Packet Inspector Pod Request Counts</h2>
-      <table>
-        <thead><tr><th>Pod ID</th><th>Requests</th></tr></thead>
-        <tbody id="stats-body"></tbody>
-      </table>
+      <header>
+        <img src="/static/ericsson-logo.png" alt="Ericsson Logo" />
+      </header>
+      <main>
+        <div>
+          <h2 style="text-align:center;">Packet Inspector Pod Request Counts</h2>
+          <table>
+            <thead><tr><th>Pod ID</th><th>Requests</th></tr></thead>
+            <tbody id="stats-body"></tbody>
+          </table>
+        </div>
+      </main>
 
       <script>
         async function fetchStats() {
@@ -62,6 +97,7 @@ def dashboard():
     </html>
     '''
     return render_template_string(html)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
